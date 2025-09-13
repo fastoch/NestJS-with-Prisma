@@ -12,12 +12,13 @@ Prisma is an **open-source ORM** for **Node**.js and **TypeScript**.
 - how the **PrismaClient** allows us to autogenerate **types** and have a **type-safe query builder** 
   for our application.  
 - how Prisma's **built-in migration system** works
-- how to define one-to-one, one-to-many and many-to-many relations in a **prisma.schema**
+- how to define one-to-one, one-to-many and many-to-many relations in a `schema.prisma` file.  
+**
 
 # Getting started
 
 - open a new terminal in VSCodium
-- install NestJS via `sudo npm i -g @nestjs/cli@latest`
+- install NestJS CLI via `sudo npm i -g @nestjs/cli@latest`
 - you can check installation via `nest -v`
 - use the Nest CLI to initialize a new NestJS project: `nest new <project_name>`
   - choose your favorite package manager
@@ -27,3 +28,23 @@ Prisma is an **open-source ORM** for **Node**.js and **TypeScript**.
   - for that, you can simply use your web browser, or any other HTTP client such as Postman or Bruno
 
 After that, we need to install Prisma and save it as a dev dependency: `npm i prisma -D`  
+- now, we can initialize Prisma in our NestJS project via `npx prisma init`
+
+We now have a `prisma` folder with a `schema.prisma` file in it.  
+A `.env` file has also been created for us, where we can set our database URL if we already have one.  
+
+# The `schema.prisma` file
+
+It's the main config file for Prisma, and it consists of 3 main parts: 
+- the **datasource**: specifies the details of the data source Prisma should connect to
+- 
+- 
+
+```prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+```
