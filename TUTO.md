@@ -16,4 +16,11 @@ Prisma is an **open-source ORM** for **Node**.js and **TypeScript**.
 
 # Getting started
 
-- use the Nest CLI to initialize 
+- open a new terminal in VSCodium
+- install NestJS via `sudo npm i -g @nestjs/cli@latest`
+- you can check installation via `nest -v`
+- use the Nest CLI to initialize a new NestJS project: `nest new <project_name>`
+  - choose your favorite package manager
+- `cd` into the newly created project folder
+- run `npm run start:dev` to start up the dev server 
+
