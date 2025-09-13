@@ -37,14 +37,24 @@ A `.env` file has also been created for us, where we can set our database URL if
 
 It's the main config file for Prisma, and it consists of 3 main parts: 
 - the **datasource**: specifies the details of the data source Prisma should connect to
-- 
-- 
+- the **generator**: specifies which client should generate the types and where the output files should go
+- the **data model definition**: specifies the entities in our app which will correspond to tables in our database
+
+Prisma will generate types in our application code based on the schema in this `schema.prisma` file.  
 
 ```prisma
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-
+model 
 ```
+
+**Note**: to get syntax highlighting in our .prisma file, we've installed the Prisma extension for VSCodium.  
+
