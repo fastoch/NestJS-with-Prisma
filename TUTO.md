@@ -53,8 +53,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model 
+model Product {
+  id Int @default(autoincrement()) @id  
+  name String @unique 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  price Float
+  onSale Boolean @default(false)
+  availability Availability
+}
+
+enum Availability {
+  IN_STORE
+  ONLINE
+}
 ```
 
-**Note**: to get syntax highlighting in our .prisma file, we've installed the Prisma extension for VSCodium.  
+**Notes**: 
+- to get syntax highlighting in our .prisma file, just install the Prisma extension for VSCodium.  
+- `@id` marks a field as the primary key
+
+# Generating migrations based off our schema
 
