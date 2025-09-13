@@ -8,12 +8,10 @@ Prisma is an **open-source ORM** for **Node**.js and **TypeScript**.
 
 ## What we'll learn
 
-- how to set up **Prisma** with **NestJS** in order to interact with a **SQL** database.  
-- how the **PrismaClient** allows us to autogenerate **types** and have a **type-safe query builder** 
-  for our application.  
+- how to set up **Prisma** with **NestJS** in order to interact with a **SQL** database
+- how the **PrismaClient** allows us to autogenerate **types** and have a **type-safe query builder** for our application
 - how Prisma's **built-in migration system** works
 - how to define one-to-one, one-to-many and many-to-many relations in a `schema.prisma` file.  
-**
 
 # Getting started
 
@@ -33,7 +31,7 @@ After that, we need to install Prisma and save it as a dev dependency: `npm i pr
 We now have a `prisma` folder with a `schema.prisma` file in it.  
 A `.env` file has also been created for us, where we can set our database URL and other environment variables.  
 
-# The `schema.prisma` file
+# Configuring the `schema.prisma` file
 
 It's the main config file for Prisma, and it consists of 3 main parts: 
 - the **datasource**: specifies the details of the data source Prisma should connect to
@@ -42,17 +40,63 @@ It's the main config file for Prisma, and it consists of 3 main parts:
 
 Prisma will generate types in our application code based on the schema in this `schema.prisma` file.  
 
+```prisma
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id Int @default(autoincrement()) @id  
+  name String @unique 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  price Float
+  onSale Boolean @default(false)
+  availability Availability
+}
+
+enum Availability {
+  IN_STORE
+  ONLINE
+}
+```
+
 **Note**: 
 - to get syntax highlighting in our .prisma file, just install the Prisma extension for VSCodium.  
 
-# Running a SQL database locally
+# Configuring the `docker-compose.yaml` file
 
-## Setting up the docker-compose file
+- create a docker-compose.yaml file at the root of our project, it should contain the following:
+```yaml
+services:
+  mysql:
+    image: mysql
+    env_file:
+      - .env
+    ports:
+      - "3306:3306"
+```
 
-We will run a MariaDB container (database) and a phpMyAdmin (database client) container via Podman.  
-See the `LOCAL_DB_SETUP.md` file for a step-by-step guide.  
+# Configuring the `.env` file
 
-- start the mariadb and phpmyadmin containers via `podman start mariadb phpmyadmin`
-- open a web browser at http://localhost:8080 (change the port if using a different one) 
-  - you should see the login page of phpMyAdmin
-- enter the credentials you've set when creating the phpMyAdmin container (see DB_CLIENT.md)
+```bash
+DATABASE_URL="mysql://root:password@127.0.0.1:3306/nestjs_prisma"
+
+MYSQL_DATABASE=nestjs_prisma
+MYSQL_ROOT_PASSWORD=password
+```
+
+# Running our MySQL container
+
+- open a terminal and run `docker-compose up --detach`  
+  - The --detach option allows us to keep using the same terminal.
+
+# Using a local database client to connect to our database
+
+
