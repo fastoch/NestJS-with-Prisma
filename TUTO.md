@@ -31,7 +31,7 @@ After that, we need to install Prisma and save it as a dev dependency: `npm i pr
 - now, we can initialize Prisma in our NestJS project via `npx prisma init`
 
 We now have a `prisma` folder with a `schema.prisma` file in it.  
-A `.env` file has also been created for us, where we can set our database URL if we already have one.  
+A `.env` file has also been created for us, where we can set our database URL and other environment variables.  
 
 # The `schema.prisma` file
 
@@ -42,52 +42,17 @@ It's the main config file for Prisma, and it consists of 3 main parts:
 
 Prisma will generate types in our application code based on the schema in this `schema.prisma` file.  
 
-```prisma
-generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/prisma"
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-model Product {
-  id Int @default(autoincrement()) @id  
-  name String @unique 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  price Float
-  onSale Boolean @default(false)
-  availability Availability
-}
-
-enum Availability {
-  IN_STORE
-  ONLINE
-}
-```
-
-**Notes**: 
+**Note**: 
 - to get syntax highlighting in our .prisma file, just install the Prisma extension for VSCodium.  
-- `@id` marks a field as the primary key
 
 # Running a SQL database locally
 
 ## Setting up the docker-compose file
 
-We will run a SQL Docker image via **Podman**.  
-- create a `docker-compose.yaml` file at the root of your project and add the following manifest:
-```yaml
-services:
-  mysql:
-    image: mysql
-    env_file:
-      - .env
-    ports:
-      - "3306:3306"
-```
+We will run a MariaDB container (database) and a phpMyAdmin (database client) container via Podman.  
+See the `LOCAL_DB_SETUP.md` file for a step-by-step guide.  
 
-## Setting up the .env file
-
+- start the mariadb and phpmyadmin containers via `podman start mariadb phpmyadmin`
+- open a web browser at http://localhost:8080 (change the port if using a different one) 
+  - you should see the login page of phpMyAdmin
+- enter the credentials you've set when creating the phpMyAdmin container (see DB_CLIENT.md)
