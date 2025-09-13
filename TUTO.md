@@ -73,5 +73,21 @@ enum Availability {
 - to get syntax highlighting in our .prisma file, just install the Prisma extension for VSCodium.  
 - `@id` marks a field as the primary key
 
-# Generating migrations based off our schema
+# Running a SQL database locally
+
+## Setting up the docker-compose file
+
+We will run a SQL Docker image via **Podman**.  
+- create a `docker-compose.yaml` file at the root of your project and add the following manifest:
+```yaml
+services:
+  mysql:
+    image: mysql
+    env_file:
+      - .env
+    ports:
+      - "3306:3306"
+```
+
+## Setting up the .env file
 
