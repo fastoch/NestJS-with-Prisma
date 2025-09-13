@@ -23,4 +23,7 @@ Prisma is an **open-source ORM** for **Node**.js and **TypeScript**.
   - choose your favorite package manager
 - `cd` into the newly created project folder
 - run `npm run start:dev` to start up the dev server 
+- we can check that our server is up and running via a GET request at `http://localhost:3000`
+  - for that, you can simply use your web browser, or any other HTTP client such as Postman or Bruno
 
+After that, we need to install Prisma and save it as a dev dependency: `npm i prisma -D`  
