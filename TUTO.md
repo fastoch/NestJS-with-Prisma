@@ -114,5 +114,23 @@ Of course, we have no tables right now, because we haven't generated any migrati
 # Executing our first Prisma migration
 
 This migration is going to synchronize our Prisma schema with our current running database.  
-- open up a terminal window and run `npx prisma migrate dev --name init`
+- open up a terminal window and run `npx prisma migrate dev --name init`  
+
+![prisma migrate command output](image.png)
+
+![prisma migrate command output 2](image-1.png)
+
+On success, this command returns "Your database in now in sync with your schema".  
+And now, in Beekeeper Studio, we should see the `Product` entity in our `nestjs_prisma` database.  
+
+## What happens during the migration?
+
+In VSCodium, we should see a new `migrations` folder inside the `prisma` folder.  
+This `migrations` folder contains a folder which name is formed of a timestamp + underscore + the migration name.  
+Inside this last folder, we have a `migration.sql` file which contains the **SQL statements** that were used by Prisma to apply the migration.  
+
+These SQL statements are required to get the state of our connected database equivalent to that of our Prisma schema.  
+
+The previous command also regenerates the **Prisma client**.  
+This operation generates **TypeScript types** for us based off of our schema, so that we can use these types in our application code.  
 
