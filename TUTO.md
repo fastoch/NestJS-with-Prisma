@@ -95,8 +95,20 @@ MYSQL_ROOT_PASSWORD=password
 # Running our MySQL container
 
 - open a terminal and run `docker-compose up --detach`  
-  - The --detach option allows us to keep using the same terminal.
+  - The `--detach` option allows us to keep using the same terminal.
 
 # Using a local database client to connect to our database
 
+To install **Beekeeper Studio** via Flatpak on my Fedora 42:
+- ensure flatpak is installed via `sudo dnf install flatpak`
+- add the Flathub repo via `flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo`
+- install Beekeeper Studio via `flatpak install flathub io.beekeeperstudio.Studio`
+- You can then run Beekeeper Studio with `flatpak run io.beekeeperstudio.Studio`
 
+In Beekeeper Studio, create a new MySQL connection, name it as you like, leave the host and port as localhost:3306, and set the username and password 
+to `root` and `password` respectively (as set in our .env file).  
+
+Once connected to our database, we can see there is the default database named `nestjs_prisma` that was created as specified in our .env file.  
+Of course, we have no tables right now, because we haven't generated any migrations against our schema yet.  
+
+# Executing our first Prisma migration
