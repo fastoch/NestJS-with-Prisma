@@ -112,3 +112,7 @@ Once connected to our database, we can see there is the default database named `
 Of course, we have no tables right now, because we haven't generated any migrations against our schema yet.  
 
 # Executing our first Prisma migration
+
+This migration is going to synchronize our Prisma schema with our current running database.  
+- open up a terminal window and run `npx prisma migrate dev --name init`
+
