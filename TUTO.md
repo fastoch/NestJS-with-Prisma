@@ -121,12 +121,32 @@ This migration is going to synchronize our Prisma schema with our current runnin
 ![prisma migrate command output 2](image-1.png)
 
 On success, this command returns "Your database in now in sync with your schema".  
-And now, in Beekeeper Studio, we should see the `Product` entity in our `nestjs_prisma` database.  
 
-## What happens during the migration?
+## About the `Product` table
+
+And now, in Beekeeper Studio, we should see the `Product` table in our `nestjs_prisma` database.  
+In this table, we can see all of the **properties** that we defined in our **model** as **columns**.  
+
+If we look at the **indexes** for this table, we'll see that the `id` is the **primary key**, and that there is a **unique** 
+index for the Product `name`.  
+These two indexes ensure that no two products will have the same id or name. 
+
+We can also see a `_prisma_migrations` table. Let's explain why this is important.
+
+## About the `_prisma_migrations` table
+
+The `_prisma_migrations` table is created and managed by Prisma to track which database migrations have been applied to a given database instance.  
+
+Each time a migration is executed using Prisma Migrate (with commands like `prisma migrate dev` or `prisma migrate deploy`), a record is added to 
+this table containing **metadata** such as the migration name, the timestamp, and a hash of the migration script.   
+
+Prisma uses the data in this table to determine which migrations are already applied and which are still pending, ensuring the database schema stays 
+in sync with the migration history in your project.
+
+## What else happens during the migration?
 
 In VSCodium, we should see a new `migrations` folder inside the `prisma` folder.  
-This `migrations` folder contains a folder which name is formed of a timestamp + underscore + the migration name.  
+This `migrations` folder contains a folder which name is formed of a **timestamp** + underscore + the **migration name**.  
 Inside this last folder, we have a `migration.sql` file which contains the **SQL statements** that were used by Prisma to apply the migration.  
 
 These SQL statements are required to get the state of our connected database equivalent to that of our Prisma schema.  
@@ -134,3 +154,32 @@ These SQL statements are required to get the state of our connected database equ
 The previous command also regenerates the **Prisma client**.  
 This operation generates **TypeScript types** for us based off of our schema, so that we can use these types in our application code.  
 
+# CRUD
+
+Prisma has taken care of everything necessary to get our database ready to work with our NestJS application.  
+So now we can start utilizing the types that Prisma Client has generated for us in our application.  
+
+- in the `src` directory, let's create a `database` folder
+- inside this `database` folder, let's generate a `database.module` and a `database.service` 
+  - for that, let's use the Nest CLI: `nest g module database` and `nest g service database`
+
+We will use that database.service to connect our app to our database through Prisma.  
+- let's make our DatabaseService **extend** PrismaClient and **implement** OnModuleInit
+
+## Explanation
+
+- The `@Injectable` decorator allows us to inject DatabaseService and make use of it anywhere in our app 
+- Extending `PrismaClient` allows this service to access the types that PrismaClient generates for us (based off of our schema)
+- Implementing `OnModuleInit` allows us to connect our app to our database as soon as the application starts up
+
+```ts
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client/extension';
+
+@Injectable()
+export class DatabaseService extends PrismaClient implements OnModuleInit {
+  async onModuleInit() {
+    await this.$connect();
+  }
+} {}
+```
