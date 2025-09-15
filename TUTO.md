@@ -159,6 +159,8 @@ This operation generates **TypeScript types** for us based off of our schema, so
 Prisma has taken care of everything necessary to get our database ready to work with our NestJS application.  
 So now we can start utilizing the types that Prisma Client has generated for us in our application.  
 
+## Creating a DatabaseService
+
 - in the `src` directory, let's create a `database` folder
 - inside this `database` folder, let's generate a `database.module` and a `database.service` 
   - for that, let's use the Nest CLI: `nest g module database` and `nest g service database`
@@ -166,7 +168,7 @@ So now we can start utilizing the types that Prisma Client has generated for us 
 We will use that database.service to connect our app to our database through Prisma.  
 - let's make our DatabaseService **extend** PrismaClient and **implement** OnModuleInit
 
-## Explanation
+### Explanation
 
 - The `@Injectable` decorator allows us to inject DatabaseService and make use of it anywhere in our app 
 - Extending `PrismaClient` allows this service to access the types that PrismaClient generates for us (based off of our schema)
@@ -183,3 +185,13 @@ export class DatabaseService extends PrismaClient implements OnModuleInit {
   }
 } {}
 ```
+
+## Building a CRUD API around our model
+
+- run `nest g resource products`
+- select 'REST API' as the transport layer
+- say Yes to generate CRUD entry points
+
+This will create a products folder inside our src folder with a products.module, a products.controller, a products.service, and DTO files.  
+
+The products.controller has all 
