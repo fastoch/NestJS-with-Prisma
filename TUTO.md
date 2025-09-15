@@ -192,6 +192,12 @@ export class DatabaseService extends PrismaClient implements OnModuleInit {
 - select 'REST API' as the transport layer
 - say Yes to generate CRUD entry points
 
-This will create a products folder inside our src folder with a products.module, a products.controller, a products.service, and DTO files.  
+This will create a `products` folder in our `src` folder with a products.module, a products.controller, a products.service, and DTO files.  
 
-The products.controller has all 
+The products.controller has all of the CRUD API routes already created.  
+All we have to do is to implement the CRUD methods inside the products.service.  
+
+- we can start by deleting the `dto` and `entities` folders because PrismaClient has already generated these types for us.  
+- let's remove the corresponding imports in the controller and service files.   
+
+In the controller's `create` function, we can replace `CreateProductDto` with `Prisma.ProductCreateInput`.  
