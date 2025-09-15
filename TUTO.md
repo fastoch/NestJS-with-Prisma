@@ -43,7 +43,7 @@ Prisma will generate types in our application code based on the schema in this `
 ```prisma
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  // output   = "../generated/prisma"
 }
 
 datasource db {
@@ -67,8 +67,9 @@ enum Availability {
 }
 ```
 
-**Note**: 
+**Notes**: 
 - to get syntax highlighting in our .prisma file, just install the Prisma extension for VSCodium.  
+- IMPORTANT: remove or comment out the `output` line from the `generator client{...}` block
 
 # Configuring the `docker-compose.yaml` file
 
@@ -201,3 +202,7 @@ All we have to do is to implement the CRUD methods inside the products.service.
 - let's remove the corresponding imports in the controller and service files.   
 
 In the controller's `create` function, we can replace `CreateProductDto` with `Prisma.ProductCreateInput`.  
+This requires to import Prisma: `import { Prisma } from '@prisma/client';`
+
+
+TO BE CONTiNUED...
